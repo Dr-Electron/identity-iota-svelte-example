@@ -17,10 +17,19 @@
   // With web.js wrapper
   import * as lib from "iota-identity-wasm-test/web";
   let keyPair, did;
-  lib.newKey().then(_keyPair => {
-    keyPair = JSON.stringify(_keyPair);
-    lib.newDID(_keyPair.public).then(r => (did = JSON.stringify(r)));
-  });
+  // functions mapped
+  (async () => {
+    keyPair = await lib.newKey();
+    did = await lib.newDID(keyPair.public);
+  })();
+
+  // functions not mapped, but everything available
+  (async () => {
+    let id = await lib.default();
+    keyPair = new id.Key();
+    did = new id.DID(keyPair.public);
+    console.log(id.Doc.generateCom());
+  })();
 </script>
 
 <style>
