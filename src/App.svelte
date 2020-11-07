@@ -28,7 +28,12 @@
     let id = await lib.default();
     keyPair = new id.Key();
     did = new id.DID(keyPair.public);
-    console.log(id.Doc.generateCom());
+    console.log(new id.Doc({ did: did.did, key: keyPair.public }).document);
+    // everything at once
+    let { key, doc } = id.Doc.generateCom();
+    console.log(key.secret);
+    console.log(key.public);
+    console.log(doc.document);
   })();
 </script>
 
