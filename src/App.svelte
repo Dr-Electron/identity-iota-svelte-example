@@ -1,35 +1,30 @@
 <script>
-  import identity_lib from "iota-identity-wasm-test/web";
+  import loadWasm, * as lib from "iota-identity-wasm-test/web/";
 
   let did = "";
   let resolveDID = "";
 
   let promise = example();
   async function example() {
-    let lib = await identity_lib();
-    // let keyPair = new lib.Key();
-    // let did = new lib.DID(keyPair.secret);
-    // console.log(new lib.Doc({ did: did.did, key: keyPair.public }).document);
-    // above in a single function
-    let { key, doc } = lib.Doc.generateCom();
+    await loadWasm();
+    let { key, doc } = lib.Doc.generateEd25519("com", "key-1");
     doc.sign(key);
-    console.log(key.secret);
-    console.log(key.public);
-    console.log(doc.document);
-    console.log(lib.Key.from_strings(key.secret, key.public));
-    let tx = await lib.publish(doc.document, {
+    console.log(key);
+    console.log(doc);
+    console.log(lib.Key.fromBase58(key.private, key.public));
+    let tx = await lib.publish(doc, {
       node: "https://nodes.comnet.thetangle.org:443",
-      network: "com"
+      network: "com",
     });
-    did = doc.document.id;
-    return { keypair: key, doc: doc.document, tx };
+    did = doc.id;
+    return { keypair: key, doc: doc, tx };
   }
 
   async function resolve_did() {
-    let lib = await identity_lib();
+    await loadWasm();
     let doc = await lib.resolve(did, {
       node: "https://nodes.comnet.thetangle.org:443",
-      network: "com"
+      network: "com",
     });
     return doc;
   }
@@ -79,7 +74,7 @@
       </a>
     </p>
   {:catch error}
-    <p style="color: red">{error.message}</p>
+    <p style="color: red">{error}</p>
   {/await}
 
   <input bind:value={did} placeholder="Enter a DID" />
@@ -89,6 +84,6 @@
   {:then resolved_doc}
     <p>Resolved document: {JSON.stringify(resolved_doc, null, 1)}</p>
   {:catch error}
-    <p style="color: red">{error.message}</p>
+    <p style="color: red">{error}</p>
   {/await}
 </main>
