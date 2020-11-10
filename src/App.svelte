@@ -1,12 +1,12 @@
 <script>
-  import loadWasm, * as lib from "iota-identity-wasm-test/web/";
+  import * as lib from "iota-identity-wasm-test/web/";
 
   let did = "";
   let resolveDID = "";
 
   let promise = example();
   async function example() {
-    await loadWasm();
+    await lib.init();
     let { key, doc } = lib.Doc.generateEd25519("com", "key-1");
     doc.sign(key);
     console.log(key);
@@ -21,7 +21,7 @@
   }
 
   async function resolve_did() {
-    await loadWasm();
+    await lib.init();
     let doc = await lib.resolve(did, {
       node: "https://nodes.comnet.thetangle.org:443",
       network: "com",
@@ -62,7 +62,7 @@
   {#await promise}
     <p>Generating keypair, document and publish it to the Tangle</p>
   {:then res}
-    <p>Private key: {res.keypair.secret}</p>
+    <p>Private key: {res.keypair.private}</p>
     <p>Public key: {res.keypair.public}</p>
     <p>DID Document: {JSON.stringify(res.doc, 'br\n', 3)}</p>
     <p>
