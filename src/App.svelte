@@ -1,38 +1,53 @@
 <script>
-  import * as lib from "iota-identity-wasm-test/web/";
+  import * as lib from "test-iota-client-wasm/web/";
 
-  let did = "";
-  let resolveDID = "";
+  let index = "";
+  let node = "https://chrysalis-nodes.iota.org/";
+  let res;
+  let messages = [];
 
-  let promise = example();
-  async function example() {
+  async function get_messages() {
     await lib.init();
-    let { key, doc } = lib.Doc.generateEd25519("com", "key-1");
-    doc.sign(key);
-    console.log(key);
-    console.log(doc);
-    console.log(lib.Key.fromBase58(key.private, key.public));
-    let tx = await lib.publish(doc, {
-      node: "https://nodes.comnet.thetangle.org:443",
-      network: "com",
-    });
-    did = doc.id;
-    return { keypair: key, doc: doc, tx };
-  }
-
-  async function resolve_did() {
-    await lib.init();
-    let doc = await lib.resolve(did, {
-      node: "https://nodes.comnet.thetangle.org:443",
-      network: "com",
-    });
-    return doc;
+    let iota_client = new lib.ClientBuilder().node(node).build();
+    // Get the nodeinfo
+    console.log(await iota_client.getInfo());
+    // let message = await iota_client.message().index("test").submit();
+    // console.log(message);
+    let messageIds = await iota_client
+      .getMessage()
+      .index(new TextEncoder().encode(index));
+    console.log(messageIds);
+    console.log(messageIds.length);
+    // clear messages
+    messages = [];
+    for (let i = 0; i < messageIds.length; i++) {
+      console.log(messageIds[i]);
+      messages.push(await iota_client.getMessage().data(messageIds[i]));
+    }
+    console.log(messages);
+    return messages;
   }
 
   function handleClick() {
-    resolveDID = resolve_did();
+    res = get_messages();
   }
 </script>
+
+<main>
+  <h1>IOTA client</h1>
+  
+  <input bind:value={index} placeholder="Enter an index" />
+  <br />
+  <input bind:value={node} placeholder="IOTA node url" />
+  <button on:click={handleClick}>Get messages</button>
+  {#await res}
+    <p>Get messages...</p>
+  {:then messages_res}
+    <p>Messages: {JSON.stringify(messages_res, null, 1)}</p>
+  {:catch error}
+    <p style="color: red">{error}</p>
+  {/await}
+</main>
 
 <style>
   main {
@@ -56,34 +71,3 @@
     }
   }
 </style>
-
-<main>
-  <h1>Identity</h1>
-  {#await promise}
-    <p>Generating keypair, document and publish it to the Tangle</p>
-  {:then res}
-    <p>Private key: {res.keypair.private}</p>
-    <p>Public key: {res.keypair.public}</p>
-    <p>DID Document: {JSON.stringify(res.doc, 'br\n', 3)}</p>
-    <p>
-      Tx :
-      <a
-        href="https://comnet.thetangle.org/transaction/{res.tx}"
-        target="_blank">
-        {res.tx}
-      </a>
-    </p>
-  {:catch error}
-    <p style="color: red">{error}</p>
-  {/await}
-
-  <input bind:value={did} placeholder="Enter a DID" />
-  <button on:click={handleClick}>Resolve DID</button>
-  {#await resolveDID}
-    <p>Resolving...</p>
-  {:then resolved_doc}
-    <p>Resolved document: {JSON.stringify(resolved_doc, null, 1)}</p>
-  {:catch error}
-    <p style="color: red">{error}</p>
-  {/await}
-</main>
