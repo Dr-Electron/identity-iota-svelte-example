@@ -1,4 +1,4 @@
-Example for the wasm bindings from <https://github.com/iotaledger/identity.rs>
+Example for the wasm bindings from <https://github.com/iotaledger/iota.rs>
 ## Get started
 
 Install the dependencies...
