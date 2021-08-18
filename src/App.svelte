@@ -8,7 +8,7 @@
 
   async function get_messages() {
     await lib.init();
-    let iota_client = new lib.ClientBuilder().node(node).build();
+    let iota_client = await new lib.ClientBuilder().node(node).build();
     // Get the nodeinfo
     console.log(await iota_client.getInfo());
     // let message = await iota_client.message().index("test").submit();
@@ -35,7 +35,7 @@
 
 <main>
   <h1>IOTA client</h1>
-  
+
   <input bind:value={index} placeholder="Enter an index" />
   <br />
   <input bind:value={node} placeholder="IOTA node url" />
