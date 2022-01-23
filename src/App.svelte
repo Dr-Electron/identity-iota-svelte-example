@@ -20,9 +20,9 @@
     console.log(messageIds.length);
     // clear messages
     messages = [];
-    for (let i = 0; i < messageIds.length; i++) {
-      console.log(messageIds[i]);
-      messages.push(await iota_client.getMessage().data(messageIds[i]));
+    for (let messageId of messageIds) {
+      console.log(messageId);
+      messages.push(await iota_client.getMessage().data(messageId));
     }
     console.log(messages);
     return messages;
