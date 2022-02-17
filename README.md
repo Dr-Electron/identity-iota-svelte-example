@@ -1,6 +1,12 @@
 Example for the wasm bindings from <https://github.com/iotaledger/iota.rs>
 ## Get started
 
+### Using Gitpod
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/Dr-Electron/identity-iota-svelte-example/tree/gitpod-integration)
+
+### Local
+
 Install the dependencies...
 
 ```bash
