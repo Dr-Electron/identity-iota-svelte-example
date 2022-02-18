@@ -1,0 +1,10 @@
+{
+    "repoName": "identity-iota-svelte-example",
+    "contentFolder": "documentation",
+    "localWikiFolder": "local-wiki",
+    "excludeList": [
+        "node_modules",
+        ".git/",
+        "local-wiki"
+    ]
+}
