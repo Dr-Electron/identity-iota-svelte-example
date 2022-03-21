@@ -1,6 +1,6 @@
 # Tutorial for the iota.rs WASM bindings
 
-![iota_client_wasm](/img/iota_client.png "Click to see the full-size image.")
+![iota_client_wasm](/iota_client.png "Click to see the full-size image.")
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/Dr-Electron/identity-iota-svelte-example/tree/gitpod-integration)
 
