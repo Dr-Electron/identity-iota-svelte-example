@@ -9,7 +9,8 @@
         "node": ">=14.14.0"
     },
     "dependencies": {
-        "@docusaurus/plugin-content-docs": "^2.0.0-beta.17"
+        "@docusaurus/plugin-content-docs": "^2.0.0-beta.17",
+        "@iota-wiki/plugin-tutorial": "iota-wiki/plugin-tutorial"
     },
     "devDependencies": {
         "@docusaurus/core": "latest",
