@@ -9,7 +9,7 @@
     "node": ">=14.14.0"
   },
   "dependencies": {
-    "@iota-wiki/plugin-tutorial": "iota-wiki/plugin-tutorial"
+    "@iota-wiki/plugin-tutorial": "^1.0.4"
   },
   "devDependencies": {
     "@iota-community/iota-wiki-cli": "iota-community/iota-wiki-cli#v2"
